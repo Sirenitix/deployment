@@ -1,0 +1,20 @@
+services:
+  demo:
+    build: .
+    ports:
+      - 9090:8080
+    container_name:
+      deploy-maven-demo
+    command:
+      sh -c "./mvnw spring-boot:run"
+  nginx:
+    image:
+      nginx:mainline
+    ports:
+      - 80:81
+    depends_on:
+      - demo
+    container_name: deploy-maven-nginx
+    volumes:
+      - ./deploy-maven.conf:/etc/nginx/conf.d/deploy-maven.conf
+    restart: on-failure 

@@ -1,0 +1,16 @@
+services:
+  web:
+    build: .
+    image: deploy-gradle:stable
+    container_name: apigrad
+    ports:
+      - 8082:8181
+  nginx:
+    image:
+      nginx:mainline
+    ports:
+      - 82:82
+    container_name: deploy-gradle-nginx
+    volumes:
+      - ./deploy-gradle.conf:/etc/nginx/conf.d/deploy-gradle.conf
+    restart: on-failure
